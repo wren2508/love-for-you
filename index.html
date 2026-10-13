@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>for you ♡</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #fffafd;
+  font-family: Georgia, serif;
+  overflow: hidden;
+  color: #ff5caa;
+}
+
+#screen {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#heart {
+  position: absolute;
+  width: min(94vw, 650px);
+  height: min(82vh, 650px);
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+.word {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  font-size: clamp(9px, 1.7vw, 14px);
+  color: #ff5eae;
+  text-shadow: 0 0 5px #ffafd6, 0 0 12px #ff77bd;
+  animation: appear 1s ease both;
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(.3); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+#intro {
+  position: absolute;
+  z-index: 5;
+  text-align: center;
+  width: 90%;
+  animation: fade 2s ease;
+}
+
+h1 {
+  font-size: clamp(28px, 7vw, 48px);
+  font-weight: normal;
+  color: #ff5caa;
+  text-shadow: 0 0 15px #ffb3d7;
+}
+
+p {
+  color: #b77b99;
+  font-size: 15px;
+}
+
+button {
+  margin-top: 20px;
+  border: 1px solid #ff9acb;
+  border-radius: 30px;
+  padding: 12px 25px;
+  background: #fff0f7;
+  color: #f04e9d;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#final {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  text-align: center;
+  width: 90%;
+  animation: fade 2s ease;
+}
+
+#final h2 {
+  font-weight: normal;
+  font-size: clamp(25px, 6vw, 42px);
+  color: #ff5caa;
+  text-shadow: 0 0 15px #ffafd6;
+}
+
+#final p {
+  line-height: 1.8;
+}
+
+#again {
+  margin-top: 12px;
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.sparkle {
+  position: absolute;
+  color: #ff91c8;
+  pointer-events: none;
+  animation: float 5s linear forwards;
+}
+
+@keyframes float {
+  from { transform: translateY(20px) scale(.5); opacity: 0; }
+  20% { opacity: .8; }
+  to { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+<div id="screen">
+  <div id="intro">
+    <h1>hey, cutie ♡</h1>
+    <p>if the world gave me every language, i think i’d still spend my whole life trying to find the right words for you.</p>
+    <button onclick="start()">click me :)</button>
+  </div>
+
+  <div id="heart"></div>
+
+  <div id="final">
+    <h2>ntr-o lume plină de oameni, cumva,<br>inima mea tot și-ar găsi drumul spre tine.</h2>
+    <p>Cumva, toate aceste cuvinte înseamnă același lucru: tu.</p>
+    <button id="again" onclick="location.reload()">click me again :)</button>
+  </div>
+</div>
+
+<script>
+const phrases = [
+  ["English", "I love you"],
+  ["French", "Je t’aime"],
+  ["Spanish", "Te amo"],
+  ["Italian", "Ti amo"],
+  ["Portuguese", "Eu te amo"],
+  ["German", "Ich liebe dich"],
+  ["Dutch", "Ik hou van jou"],
+  ["Swedish", "Jag älskar dig"],
+  ["Norwegian", "Jeg elsker deg"],
+  ["Danish", "Jeg elsker dig"],
+  ["Finnish", "Rakastan sinua"],
+  ["Icelandic", "Ég elska þig"],
+  ["Polish", "Kocham cię"],
+  ["Czech", "Miluji tě"],
+  ["Slovak", "Ľúbim ťa"],
+  ["Hungarian", "Szeretlek"],
+  ["Romanian", "Te iubesc"],
+  ["Greek", "Σ’ αγαπώ"],
+  ["Turkish", "Seni seviyorum"],
+  ["Russian", "Я тебя люблю"],
+  ["Ukrainian", "Я тебе кохаю"],
+  ["Bulgarian", "Обичам те"],
+  ["Serbian", "Волим те"],
+  ["Croatian", "Volim te"],
+  ["Slovenian", "Ljubim te"],
+  ["Albanian", "Të dua"],
+  ["Armenian", "Ես քեզ սիրում եմ"],
+  ["Georgian", "მიყვარხარ"],
+  ["Arabic", "أحبك"],
+  ["Persian", "دوستت دارم"],
+  ["Hebrew", "אני אוהב אותך"],
+  ["Hindi", "मैं तुमसे प्यार करता हूँ"],
+  ["Urdu", "میں تم سے محبت کرتا ہوں"],
+  ["Bengali", "আমি তোমাকে ভালোবাসি"],
+  ["Punjabi", "ਮੈਂ ਤੈਨੂੰ ਪਿਆਰ ਕਰਦਾ ਹਾਂ"],
+  ["Gujarati", "હું તને પ્રેમ કરું છું"],
+  ["Marathi", "मी तुझ्यावर प्रेम करतो"],
+  ["Nepali", "म तिमीलाई माया गर्छु"],
+  ["Sinhala", "මම ඔයාට ආදරෙයි"],
+  ["Tamil", "நான் உன்னை காதலிக்கிறேன்"],
+  ["Telugu", "నేను నిన్ను ప్రేమిస్తున్నాను"],
+  ["Kannada", "ನಾನು ನಿನ್ನನ್ನು ಪ್ರೀತಿಸುತ್ತೇನೆ"],
+  ["Malayalam", "ഞാൻ നിന്നെ സ്നേഹിക്കുന്നു"],
+  ["Thai", "ฉันรักคุณ"],
+  ["Lao", "ຂ້ອຍຮັກເຈົ້າ"],
+  ["Khmer", "ខ្ញុំស្រឡាញ់អ្នក"],
+  ["Vietnamese", "Tôi yêu bạn"],
+  ["Indonesian", "Aku cinta kamu"],
+  ["Malay", "Saya cintakan awak"],
+  ["Filipino", "Mahal kita"],
+  ["Javanese", "Aku tresna karo kowe"],
+  ["Sundanese", "Abdi bogoh ka anjeun"],
+  ["Chinese", "我爱你"],
+  ["Cantonese", "我愛你"],
+  ["Japanese", "愛してる"],
+  ["Korean", "사랑해"],
+  ["Mongolian", "Би чамд хайртай"],
+  ["Burmese", "မင်းကိုချစ်တယ်"],
+  ["Uzbek", "Men seni sevaman"],
+  ["Kazakh", "Мен сені сүйемін"],
+  ["Kyrgyz", "Мен сени сүйөм"],
+  ["Tajik", "Ман туро дӯст медорам"],
+  ["Azerbaijani", "Mən səni sevirəm"],
+  ["Kurdish", "Ez ji te hez dikim"],
+  ["Pashto", "زه تا سره مینه لرم"],
+  ["Amharic", "እወድሃለሁ"],
+  ["Swahili", "Nakupenda"],
+  ["Zulu", "Ngiyakuthanda"],
+  ["Xhosa", "Ndiyakuthanda"],
+  ["Afrikaans", "Ek is lief vir jou"],
+  ["Yoruba", "Mo nifẹ rẹ"],
+  ["Igbo", "A hụrụ m gị n'anya"],
+  ["Hausa", "Ina son ka"],
+  ["Somali", "Waan ku jeclahay"],
+  ["Malagasy", "Tiako ianao"],
+  ["Irish", "Tá grá agam duit"],
+  ["Scottish Gaelic", "Tha gaol agam ort"],
+  ["Welsh", "Rwy'n dy garu di"],
+  ["Basque", "Maite zaitut"],
+  ["Catalan", "T'estimo"],
+  ["Galician", "Quérote"],
+  ["Latin", "Te amo"],
+  ["Esperanto", "Mi amas vin"],
+  ["Estonian", "Ma armastan sind"],
+  ["Latvian", "Es tevi mīlu"],
+  ["Lithuanian", "Aš tave myliu"],
+  ["Maltese", "Inħobbok"],
+  ["Luxembourgish", "Ech hunn dech gär"],
+  ["Albanian", "Të dua"],
+  ["Macedonian", "Те сакам"],
+  ["Belarusian", "Я цябе кахаю"],
+  ["Bosnian", "Volim te"],
+  ["Montenegrin", "Volim te"],
+  ["Yiddish", "איך האָב דיך ליב"],
+  ["Hawaiian", "Aloha wau iā ʻoe"],
+  ["Māori", "Aroha ahau ki a koe"],
+  ["Samoan", "Ou te alofa ia te oe"],
+  ["Tongan", "ʻOku ou ʻofa atu"],
+  ["Fijian", "Au domoni iko"],
+  ["Tahitian", "Ua here vau ia oe"],
+  ["Chamorro", "Hu guaiya hao"],
+  ["Haitian Creole", "Mwen renmen ou"],
+  ["Jamaican Patois", "Mi luv yuh"],
+  ["Quechua", "Kuyayki"],
+  ["Guarani", "Rohayhu"],
+  ["Nahuatl", "Nimitztlazohtla"],
+  ["Yucatec Maya", "In yaakumech"],
+  ["Greenlandic", "Asavakkit"],
+  ["Inuktitut", "ᓇᒡᓕᒋᕙᒋᑦ"],
+  ["Tibetan", "ང་ཁྱེད་རང་ལ་དགའ་པོ་ཡོད"],
+  ["Sanskrit", "त्वयि स्निह्यामि"],
+  ["Odia", "ମୁଁ ତୁମକୁ ଭଲ ପାଏ"],
+  ["Assamese", "মই তোমাক ভাল পাওঁ"],
+  ["Konkani", "हांव तुजेर मोग करता"],
+  ["Bhojpuri", "हम तोहसे प्यार करेनी"],
+  ["Maithili", "हम अहाँ सँ प्रेम करैत छी"],
+  ["Sindhi", "مان توسان پيار ڪريان ٿو"],
+  ["Kashmiri", "بہٕ چھُس بَہٕ تۄہہِ پیار"],
+  ["Dhivehi", "އަހަރެން ތިބާއަށް ލޯބިވޭ"],
+  ["Kinyarwanda", "Ndagukunda"],
+  ["Kirundi", "Ndagukunda"],
+  ["Luganda", "Nkwagala"],
+  ["Shona", "Ndinokuda"],
+  ["Sesotho", "Kea u rata"],
+  ["Setswana", "Ke a go rata"],
+  ["Chichewa", "Ndimakukonda"],
+  ["Wolof", "Dama la bëgg"],
+  ["Lingala", "Nalingi yo"],
+  ["Ewe", "Melɔ̃ wò"],
+  ["Akan", "Me dɔ wo"],
+  ["Oromo", "Sin jaalladha"],
+  ["Tigrinya", "የፍቅር ኣለኒ"],
+  ["Lao", "ຂ້ອຍຮັກເຈົ້າ"],
+  ["Bislama", "Mi lavem yu"],
+  ["Tok Pisin", "Mi laikim yu"],
+  ["Papiamento", "Mi stima bo"],
+  ["Frisian", "Ik hâld fan dy"],
+  ["Faroese", "Eg elski teg"],
+  ["Breton", "Me az kar"],
+  ["Corsican", "Ti tengu caru"],
+  ["Sardinian", "Deo t'amo"],
+  ["Occitan", "T'aimi"],
+  ["Romansh", "Jau t'am"],
+  ["Aragonese", "T'quiero"],
+  ["Asturian", "Quiérote"],
+  ["Aymara", "Munsma"],
+  ["Tatar", "Мин сине яратам"],
+  ["Bashkir", "Мин һине яратам"],
+  ["Uyghur", "مەن سېنى سۆيىمەن"],
+  ["Turkmen", "Men seni söýýärin"],
+  ["Hmong", "Kuv hlub koj"],
+  ["Tsonga", "Ndza ku rhandza"],
+  ["Venda", "Ndi a ni funa"],
+  ["Twi", "Me dɔ wo"],
+  ["Fang", "Ma dzing wa"],
+  ["Komi", "Ме радейтӧ тэ"],
+  ["Ainu", "E=iwanke ya"],
+  ["Interlingua", "Io te ama"],
+  ["Sicilian", "Ti amu"],
+  ["Venetian", "Te vòjo ben"],
+  ["Limburgish", "Ich höb dich leef"],
+  ["Upper Sorbian", "Lubju ći"],
+  ["Lower Sorbian", "Lubuju ći"],
+  ["Cornish", "My a'th kar"],
+  ["Manx", "Ta graih aym ort"],
+  ["Karelian", "Minä armastan sinua"],
+  ["Livonian", "Ma armastõb sind"],
+  ["Kashubian", "Kòchóm ce"],
+  ["Walloon", "Dji t'veû vol'tî"],
+  ["Judeo-Spanish", "Te amo"],
+  ["Toki Pona", "mi olin e sina"]
+];
+
+let started = false;
+
+function start() {
+  if (started) return;
+  started = true;
+
+  document.getElementById("intro").style.display = "none";
+  const heart = document.getElementById("heart");
+  heart.style.opacity = "1";
+
+  // Plot the words around a heart curve.
+  const width = heart.clientWidth;
+  const height = heart.clientHeight;
+  const scale = Math.min(width / 34, height / 31);
+  const cx = width / 2;
+  const cy = height / 2 + scale * 2;
+
+  phrases.slice(0, 150).forEach((phrase, i) => {
+    const t = (i / 150) * Math.PI * 2;
+    const x = 16 * Math.pow(Math.sin(t), 3);
+    const y = 13 * Math.cos(t) - 5 * Math.cos(2*t)
+              - 2 * Math.cos(3*t) - Math.cos(4*t);
+
+    const span = document.createElement("span");
+    span.className = "word";
+    span.textContent = phrase[1];
+    span.style.left = (cx + x * scale) + "px";
+    span.style.top = (cy - y * scale) + "px";
+    span.style.animationDelay = (i * 0.025) + "s";
+    heart.appendChild(span);
+  });
+
+  // Floating little sparkles.
+  for (let i = 0; i < 24; i++) {
+    setTimeout(() => {
+      const sparkle = document.createElement("span");
+      sparkle.className = "sparkle";
+      sparkle.textContent = ["♡", "✦", "♥", "୨୧"][i % 4];
+      sparkle.style.left = Math.random() * 100 + "vw";
+      sparkle.style.top = (70 + Math.random() * 30) + "vh";
+      sparkle.style.animationDuration = (4 + Math.random() * 3) + "s";
+      document.getElementById("screen").appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 7000);
+    }, i * 350);
+  }
+
+  setTimeout(() => {
+    heart.style.opacity = "0";
+    setTimeout(() => {
+      heart.style.display = "none";
+      document.getElementById("final").style.display = "block";
+    }, 2000);
+  }, 10000);
+}
+</script>
+</body>
+</html>
